@@ -106,7 +106,7 @@ $(document).ready(function () {
   if (starttime === null) {
     alert('Dialogsystem nicht aktiv !!  Bitte anmelden ');
 	//"feserver": "localhost:8090"
-    var url = "http://" + feserver  + "/MainWRW/webrw/webrw.html";
+    var url = "http://" + globalconfig.feserver  + "/MainWRW/webrw/webrw.html";
 		
     var newWin = window.open(url, "_self");
   }
