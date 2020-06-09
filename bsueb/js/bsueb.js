@@ -1,18 +1,18 @@
 $(document).ready(function () {
   dialogname = 'bsueb';
- 
+
   //Window close Event
   $(window).on("beforeunload", function () {
     localStorage.setItem(dialogname, 'closed');
     //Size speichern
     localStorage.setItem(dialogname + ".width", $(window).width());
-    localStorage.setItem(dialogname + ".height", $(window).height());	  
-	
-	//Dialogeintrag löschen
-    localStorage.removeItem(dialogname);      
-	  
-	//return "Wollen Sie tatsächlich den Dialog schließen?";
-    return true;    
+    localStorage.setItem(dialogname + ".height", $(window).height());
+
+    //Dialogeintrag löschen
+    localStorage.removeItem(dialogname);
+
+    //return "Wollen Sie tatsächlich den Dialog schließen?";
+    return true;
   });
 
   //Eventlistener: Eintrag in localstorage
@@ -40,15 +40,13 @@ $(document).ready(function () {
      */
     closed = false;
     if (dialogname === key) {
-      if (newvalue === 'closed')
-      {
+      if (newvalue === 'closed') {
         //localStorage Eintrag wurde im Dialog auf closed gesetzt
         closed = true;
         localStorage.removeItem(key);
         window.close();
         UTIL.logger(dialogname + ": onStorageEvent(): Dialog: " + key + ' gelöscht und closed');
-      } else if (newvalue === 'folge')
-      {
+      } else if (newvalue === 'folge') {
         //Folgedialog starten
         aktdialog = key;
         UTIL.logger(dialogname + ": onStorageEvent(): folgedialog: " + key);
@@ -82,7 +80,7 @@ $(document).ready(function () {
 
   //Navigator click event
   $("#navigator").bind("tree.click", function (event) {
-	naviclick(event);
+    naviclick(event);
   });
 
   //Start: Navigator und Liste aktiver Dialoge nicht anzeigen
@@ -102,15 +100,15 @@ $(document).ready(function () {
 
   //Navigator aktiv ??
   var starttime = localStorage.getItem("starttime");
-  
+
   if (starttime === null) {
     alert('Dialogsystem nicht aktiv !!  Bitte anmelden ');
-	//"feserver": "localhost:8090"
-    var url = "http://" + globalconfig.feserver  + "/MainWRW/webrw/webrw.html";
-		
+    //"feserver": "localhost:8090"
+    var url = "http://" + globalconfig.feserver + "/MainWRW/webrw/webrw.html";
+
     var newWin = window.open(url, "_self");
   }
- 
+
   //Hole gespeichetes Customising aus localStorage
   customize = function customize(param) {
     if (param === "param") {
@@ -194,7 +192,7 @@ $(document).ready(function () {
       if (newindex < 0) {
         newindex = pagelength - 1;
       }
-      table.row(':eq(' + newindex + ')', {page: 'current'}).select();
+      table.row(':eq(' + newindex + ')', { page: 'current' }).select();
       return false;
     }
 
@@ -208,7 +206,7 @@ $(document).ready(function () {
         newindex = 0;
       }
 
-      table.row(':eq(' + newindex + ')', {page: 'current'}).select();
+      table.row(':eq(' + newindex + ')', { page: 'current' }).select();
       return false;
     }
 
@@ -242,10 +240,10 @@ $(document).ready(function () {
       return false;
     }
 
-//    if (key === 123) { //F12
-//      console.log('F5/Ctrl+F5 116 blocked');
-//      return false;
-//    }    
+    //    if (key === 123) { //F12
+    //      console.log('F5/Ctrl+F5 116 blocked');
+    //      return false;
+    //    }    
   });
 
   //Window click event  
@@ -291,7 +289,7 @@ $(document).ready(function () {
     if ($('#' + lbname).val() === null) {
       //"listboxen": [{"name": "lotyplb", "typ": "appKonst", "table": "V_AC_FLSLAGERORTTYP"} oder SELECT Stmt.
       //var url = "../Listbox?typ=";
-      var url = globalconfig.bckendurl + "Listbox?typ=";    
+      var url = globalconfig.bckendurl + "Listbox?typ=";
       UTIL.logger(dialogname + ': initLb(): lbname: ' + lbname + '; url: ' + url);
 
       for (let i = 0; i < config.default.data.listboxen.length; i++) {
@@ -329,7 +327,7 @@ $(document).ready(function () {
         //UTIL.logger(dialogname + ': changelb(): lbname: ' + lbname + '; value: ' + value);
         //Dependend Listbox
         //var url = "../Listbox?typ=";
-        var url = globalconfig.bckendurl + "Listbox?typ="; 
+        var url = globalconfig.bckendurl + "Listbox?typ=";
         for (let j = 0; j < config.default.data.listboxen.length; j++) {
           if (config.default.data.listboxen[j].name === dependend) {
             //UTIL.logger(dialogname + ': changelb(): dependend lbname: ' + dependend);
@@ -361,8 +359,8 @@ $(document).ready(function () {
 
   //Listboxen init. 
   function initLbs() {
-    UTIL.logger(dialogname + ': initLbs()');     
-    $("#eingabediv1 select").each(function (lb) {  
+    UTIL.logger(dialogname + ': initLbs()');
+    $("#eingabediv1 select").each(function (lb) {
       var lbname = $(this).attr('id');
       UTIL.logger(dialogname + ': initLbs(): lb: ' + lb + '; lbname: ' + lbname);
       if (lbname !== undefined) {
@@ -518,17 +516,18 @@ $(document).ready(function () {
         "autoWidth": false,
         "pageLength": 5,
         "keys": true,
-        "select": {style: 'single'},
+        "select": { style: 'single' },
         "columnDefs": [
-          {"targets": [0], "visible": (config.default.data[tabelle].columns[0].visible) === "true" ? true : false},
-          {"targets": [1], "visible": (config.default.data[tabelle].columns[1].visible) === "true" ? true : false},
-          {"targets": [2], "visible": (config.default.data[tabelle].columns[2].visible) === "true" ? true : false},
-          {"targets": [3], "visible": (config.default.data[tabelle].columns[3].visible) === "true" ? true : false},
-          {"targets": [4], "visible": (config.default.data[tabelle].columns[4].visible) === "true" ? true : false},
-          {"targets": [5], "visible": (config.default.data[tabelle].columns[5].visible) === "true" ? true : false},
-          {"targets": [6], "visible": (config.default.data[tabelle].columns[6].visible) === "true" ? true : false},
-          {"targets": [7], "visible": (config.default.data[tabelle].columns[7].visible) === "true" ? true : false},
-          {"targets": [8], "readonly": false,
+          { "targets": [0], "visible": (config.default.data[tabelle].columns[0].visible) === "true" ? true : false },
+          { "targets": [1], "visible": (config.default.data[tabelle].columns[1].visible) === "true" ? true : false },
+          { "targets": [2], "visible": (config.default.data[tabelle].columns[2].visible) === "true" ? true : false },
+          { "targets": [3], "visible": (config.default.data[tabelle].columns[3].visible) === "true" ? true : false },
+          { "targets": [4], "visible": (config.default.data[tabelle].columns[4].visible) === "true" ? true : false },
+          { "targets": [5], "visible": (config.default.data[tabelle].columns[5].visible) === "true" ? true : false },
+          { "targets": [6], "visible": (config.default.data[tabelle].columns[6].visible) === "true" ? true : false },
+          { "targets": [7], "visible": (config.default.data[tabelle].columns[7].visible) === "true" ? true : false },
+          {
+            "targets": [8], "readonly": false,
             "visible": (config.default.data[tabelle].columns[8].visible) === "true" ? true : false,
             render: function (data, type, row) {
               if (data === '0') {
@@ -539,12 +538,13 @@ $(document).ready(function () {
               return data;
             }
           },
-          {"targets": [9], "visible": (config.default.data[tabelle].columns[9].visible) === "true" ? true : false},
-          {"targets": [10], "visible": (config.default.data[tabelle].columns[10].visible) === "true" ? true : false},
-          {"targets": [11], "visible": (config.default.data[tabelle].columns[11].visible) === "true" ? true : false},
-          {"targets": [12], "visible": (config.default.data[tabelle].columns[12].visible) === "true" ? true : false},
-          {"targets": [13], "visible": (config.default.data[tabelle].columns[13].visible) === "true" ? true : false},
-          {"targets": [14],
+          { "targets": [9], "visible": (config.default.data[tabelle].columns[9].visible) === "true" ? true : false },
+          { "targets": [10], "visible": (config.default.data[tabelle].columns[10].visible) === "true" ? true : false },
+          { "targets": [11], "visible": (config.default.data[tabelle].columns[11].visible) === "true" ? true : false },
+          { "targets": [12], "visible": (config.default.data[tabelle].columns[12].visible) === "true" ? true : false },
+          { "targets": [13], "visible": (config.default.data[tabelle].columns[13].visible) === "true" ? true : false },
+          {
+            "targets": [14],
             "visible": (config.default.data[tabelle].columns[14].visible) === "true" ? true : false,
             render: function (data, type, row) {
               if (data === '0') {
@@ -555,14 +555,15 @@ $(document).ready(function () {
               return data;
             }
           },
-          {"targets": [15], "visible": (config.default.data[tabelle].columns[15].visible) === "true" ? true : false},
-          {"targets": [16], "visible": (config.default.data[tabelle].columns[16].visible) === "true" ? true : false},
-          {"targets": [17], "visible": (config.default.data[tabelle].columns[17].visible) === "true" ? true : false},
-          {"targets": [18], "visible": (config.default.data[tabelle].columns[18].visible) === "true" ? true : false},
-          {"targets": [19], "visible": (config.default.data[tabelle].columns[19].visible) === "true" ? true : false},
-          {"targets": [20], "visible": (config.default.data[tabelle].columns[20].visible) === "true" ? true : false},
-          {"targets": [21], "visible": (config.default.data[tabelle].columns[21].visible) === "true" ? true : false},
-          {"targets": [22],
+          { "targets": [15], "visible": (config.default.data[tabelle].columns[15].visible) === "true" ? true : false },
+          { "targets": [16], "visible": (config.default.data[tabelle].columns[16].visible) === "true" ? true : false },
+          { "targets": [17], "visible": (config.default.data[tabelle].columns[17].visible) === "true" ? true : false },
+          { "targets": [18], "visible": (config.default.data[tabelle].columns[18].visible) === "true" ? true : false },
+          { "targets": [19], "visible": (config.default.data[tabelle].columns[19].visible) === "true" ? true : false },
+          { "targets": [20], "visible": (config.default.data[tabelle].columns[20].visible) === "true" ? true : false },
+          { "targets": [21], "visible": (config.default.data[tabelle].columns[21].visible) === "true" ? true : false },
+          {
+            "targets": [22],
             "visible": (config.default.data[tabelle].columns[22].visible) === "true" ? true : false,
             render: function (data, type, row) {
               if (data === '0') {
@@ -573,7 +574,8 @@ $(document).ready(function () {
               return data;
             }
           },
-          {"targets": [23],
+          {
+            "targets": [23],
             "visible": (config.default.data[tabelle].columns[23].visible) === "true" ? true : false,
             render: function (data, type, row) {
               if (data === '0') {
@@ -584,44 +586,44 @@ $(document).ready(function () {
               return data;
             }
           },
-          {"targets": [24], "visible": (config.default.data[tabelle].columns[24].visible) === "true" ? true : false},
-          {"targets": [25], "visible": (config.default.data[tabelle].columns[25].visible) === "true" ? true : false},
-          {"targets": [26], "visible": (config.default.data[tabelle].columns[26].visible) === "true" ? true : false},
-          {"targets": [27], "visible": (config.default.data[tabelle].columns[27].visible) === "true" ? true : false},
-          {"targets": [28], "visible": (config.default.data[tabelle].columns[28].visible) === "true" ? true : false},
-          {"targets": [29], "visible": (config.default.data[tabelle].columns[29].visible) === "true" ? true : false},
-          {"targets": [30], "visible": (config.default.data[tabelle].columns[30].visible) === "true" ? true : false},
-          {"targets": [31], "visible": (config.default.data[tabelle].columns[31].visible) === "true" ? true : false},
-          {"targets": [32], "visible": (config.default.data[tabelle].columns[32].visible) === "true" ? true : false},
-          {"targets": [33], "visible": (config.default.data[tabelle].columns[33].visible) === "true" ? true : false},
-          {"targets": [34], "visible": (config.default.data[tabelle].columns[34].visible) === "true" ? true : false},
-          {"targets": [35], "visible": (config.default.data[tabelle].columns[35].visible) === "true" ? true : false},
-          {"targets": [36], "visible": (config.default.data[tabelle].columns[36].visible) === "true" ? true : false},
-          {"targets": [37], "visible": (config.default.data[tabelle].columns[37].visible) === "true" ? true : false},
-          {"targets": [38], "visible": (config.default.data[tabelle].columns[38].visible) === "true" ? true : false},
-          {"targets": [39], "visible": (config.default.data[tabelle].columns[39].visible) === "true" ? true : false},
-          {"targets": [40], "visible": (config.default.data[tabelle].columns[40].visible) === "true" ? true : false},
-          {"targets": [41], "visible": (config.default.data[tabelle].columns[41].visible) === "true" ? true : false},
-          {"targets": [42], "visible": (config.default.data[tabelle].columns[42].visible) === "true" ? true : false},
-          {"targets": [43], "visible": (config.default.data[tabelle].columns[43].visible) === "true" ? true : false},
-          {"targets": [44], "visible": (config.default.data[tabelle].columns[44].visible) === "true" ? true : false},
-          {"targets": [45], "visible": (config.default.data[tabelle].columns[45].visible) === "true" ? true : false},
-          {"targets": [46], "visible": (config.default.data[tabelle].columns[46].visible) === "true" ? true : false},
-          {"targets": [47], "visible": (config.default.data[tabelle].columns[47].visible) === "true" ? true : false},
-          {"targets": [48], "visible": (config.default.data[tabelle].columns[48].visible) === "true" ? true : false},
-          {"targets": [49], "visible": (config.default.data[tabelle].columns[49].visible) === "true" ? true : false},
-          {"targets": [50], "visible": (config.default.data[tabelle].columns[50].visible) === "true" ? true : false},
-          {"targets": [51], "visible": (config.default.data[tabelle].columns[51].visible) === "true" ? true : false},
-          {"targets": [52], "visible": (config.default.data[tabelle].columns[52].visible) === "true" ? true : false},
-          {"targets": [53], "visible": (config.default.data[tabelle].columns[53].visible) === "true" ? true : false},
-          {"targets": [54], "visible": (config.default.data[tabelle].columns[54].visible) === "true" ? true : false},
-          {"targets": [55], "visible": (config.default.data[tabelle].columns[55].visible) === "true" ? true : false},
+          { "targets": [24], "visible": (config.default.data[tabelle].columns[24].visible) === "true" ? true : false },
+          { "targets": [25], "visible": (config.default.data[tabelle].columns[25].visible) === "true" ? true : false },
+          { "targets": [26], "visible": (config.default.data[tabelle].columns[26].visible) === "true" ? true : false },
+          { "targets": [27], "visible": (config.default.data[tabelle].columns[27].visible) === "true" ? true : false },
+          { "targets": [28], "visible": (config.default.data[tabelle].columns[28].visible) === "true" ? true : false },
+          { "targets": [29], "visible": (config.default.data[tabelle].columns[29].visible) === "true" ? true : false },
+          { "targets": [30], "visible": (config.default.data[tabelle].columns[30].visible) === "true" ? true : false },
+          { "targets": [31], "visible": (config.default.data[tabelle].columns[31].visible) === "true" ? true : false },
+          { "targets": [32], "visible": (config.default.data[tabelle].columns[32].visible) === "true" ? true : false },
+          { "targets": [33], "visible": (config.default.data[tabelle].columns[33].visible) === "true" ? true : false },
+          { "targets": [34], "visible": (config.default.data[tabelle].columns[34].visible) === "true" ? true : false },
+          { "targets": [35], "visible": (config.default.data[tabelle].columns[35].visible) === "true" ? true : false },
+          { "targets": [36], "visible": (config.default.data[tabelle].columns[36].visible) === "true" ? true : false },
+          { "targets": [37], "visible": (config.default.data[tabelle].columns[37].visible) === "true" ? true : false },
+          { "targets": [38], "visible": (config.default.data[tabelle].columns[38].visible) === "true" ? true : false },
+          { "targets": [39], "visible": (config.default.data[tabelle].columns[39].visible) === "true" ? true : false },
+          { "targets": [40], "visible": (config.default.data[tabelle].columns[40].visible) === "true" ? true : false },
+          { "targets": [41], "visible": (config.default.data[tabelle].columns[41].visible) === "true" ? true : false },
+          { "targets": [42], "visible": (config.default.data[tabelle].columns[42].visible) === "true" ? true : false },
+          { "targets": [43], "visible": (config.default.data[tabelle].columns[43].visible) === "true" ? true : false },
+          { "targets": [44], "visible": (config.default.data[tabelle].columns[44].visible) === "true" ? true : false },
+          { "targets": [45], "visible": (config.default.data[tabelle].columns[45].visible) === "true" ? true : false },
+          { "targets": [46], "visible": (config.default.data[tabelle].columns[46].visible) === "true" ? true : false },
+          { "targets": [47], "visible": (config.default.data[tabelle].columns[47].visible) === "true" ? true : false },
+          { "targets": [48], "visible": (config.default.data[tabelle].columns[48].visible) === "true" ? true : false },
+          { "targets": [49], "visible": (config.default.data[tabelle].columns[49].visible) === "true" ? true : false },
+          { "targets": [50], "visible": (config.default.data[tabelle].columns[50].visible) === "true" ? true : false },
+          { "targets": [51], "visible": (config.default.data[tabelle].columns[51].visible) === "true" ? true : false },
+          { "targets": [52], "visible": (config.default.data[tabelle].columns[52].visible) === "true" ? true : false },
+          { "targets": [53], "visible": (config.default.data[tabelle].columns[53].visible) === "true" ? true : false },
+          { "targets": [54], "visible": (config.default.data[tabelle].columns[54].visible) === "true" ? true : false },
+          { "targets": [55], "visible": (config.default.data[tabelle].columns[55].visible) === "true" ? true : false },
         ]
-          /* "scrollX": true,
-           fixedColumns: {
-           leftColumns: 1
-           }
-           */
+        /* "scrollX": true,
+         fixedColumns: {
+         leftColumns: 1
+         }
+         */
       });
     }
 
